@@ -1,0 +1,99 @@
+openapi: '3.0.3'
+info:
+  title: Users Restfull API
+  description: API Spec for Users Restfull API
+  version: '1.0'
+servers:
+  - url: https://localhost:3000/api/users
+paths:
+  /register:
+    post:
+      summary: User Register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                password:
+                  type: string
+                pengguna:
+                  type: string
+                tanggal_buat_akun:
+                  type: string
+              required:
+                - name
+                - email
+                - password
+                - pengguna
+                - tanggal_buat_akun
+      responses:
+        '201':
+          description: users created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code: 
+                    type: number
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      pengguna:
+                        type: string
+                      tanggal_buat_akun:
+                        type: string
+  /login:
+    post:
+      summary: User Login
+      description: menampilkan data user yang sudah terdaftar
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:            
+                email:
+                  type: string
+                password:
+                  type: string
+              required:
+                - email
+                - password
+      responses:
+        '201':
+          description: users created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code: 
+                    type: number
+                  data:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                      email:
+                        type: string
+                      password:
+                        type: string
+                      pengguna:
+                        type: string
+                      tanggal_buat_akun:
+                        type: string
