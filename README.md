@@ -42,4 +42,4 @@ Dokumentasi API tersedia di Swagger UI.
 
 **URL Lokal:** [Swagger UI - URL](http://localhost:3000/swagger/index.html)
 
-Untuk melihat atau mengedit spesifikasi API secara langsung, Anda dapat menggunakan [Swagger Editor](https://editor.swagger.io/).
+Untuk melihat spesifikasi API secara langsung, Anda dapat menggunakan [Swagger Editor](https://editor.swagger.io/).
