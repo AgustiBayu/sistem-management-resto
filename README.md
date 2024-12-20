@@ -28,8 +28,8 @@ Sistem Manajemen Resto adalah backend API yang dirancang untuk mengelola data re
 ## Instalasi
 1. Clone repository:
    ```bash
-   git clone https://github.com/username/sistem-manajemen-restoran.git
-
+   git clone https://github.com/AgustiBayu/sistem-management-resto.git
+   
 2. cd sistem-manajemen-restoran
 3. go mod tidy
 4. Atur konfigurasi database di file app.

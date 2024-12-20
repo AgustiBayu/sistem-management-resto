@@ -1,0 +1,210 @@
+openapi: '3.0.3'
+info:
+  title: Category Restfull API
+  description: API Spec for Category Restfull API
+  version: '1.0'
+servers:
+  - url: https://localhost:3000/api
+paths:
+  /menuItems:
+    post:
+      summary: Menambah data Menu Item
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                deskripsi:
+                  type: string
+                harga:
+                  type: string
+                tanggal_penambahan_item_menu:
+                  type: string
+                  format: date
+              required:
+                - name
+                - deskripsi
+                - harga
+                - tanggal_penambahan_item_menu
+      responses:
+        '201':
+          description: menu items
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code: 
+                    type: number
+                  data:
+                    type: object                                          
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                      description:
+                        type: string
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    get:
+      summary: menampilkan data semua data menu items
+      description: menampilkan tanpa menggunkan paginate
+
+      responses:
+        '200':
+          description: user items reading
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                  
+                  data: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        name:
+                          type: string
+                        description:
+                          type: string
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+  /userItems/{id}:  
+    get:
+      summary: menampilkan data user items berdasarkan id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user items id yang akan diambil
+          schema:
+            type: number
+          
+      responses:
+        '200':
+          description: user items reading
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                 
+                  data: 
+                    type: object
+                    properties:
+                      id:
+                        type: number
+                      name:
+                        type: string
+                      description:
+                        type: string
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    put:
+      summary: merubah data user items
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: user items id yang akan diambil
+          schema:
+           type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                deskripsi:
+                  type: string
+                harga:
+                  type: string
+                tanggal_penambahan_item_menu:
+                  type: string
+                  format: date
+      responses:
+        '201':
+          description: data category berhasil dirubah
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                  
+                  data:
+                    type: object                    
+                    properties:
+                      id:
+                        type: integer
+                      name:
+                        type: string
+                      deskripsi:
+                        type: string
+                      harga:
+                        type: string
+                      tanggal_penambahan_item_menu:
+                        type: string
+                        format: date
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    delete:
+      summary: menghapus data user items
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: user items id yang akan diambil
+          schema:
+            type: number
+      responses:
+        '200':
+          description: "data berhasil dihapus"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                 
