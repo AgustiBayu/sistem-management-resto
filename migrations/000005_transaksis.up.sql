@@ -1,7 +1,7 @@
 CREATE TABLE transaksis(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     pesanan_id INT NOT NULL,
-    metode_pembayaran ENUM ('CASH', 'CARD', 'EWALLET') NOT NULL,
+    metode_pembayaran TEXT CHECK (metode_pembayaran IN ('CASH', 'CARD', 'EWALLET')),    
     jumlah_bayar INT NOT NULL,
     kembalian INT NOT NULL,
     tanggal_transaksi DATE NOT NULL,

@@ -15,16 +15,20 @@ Sistem Manajemen Resto adalah backend API yang dirancang untuk mengelola data re
 - **Bahasa:** Golang
 - **Golang Migrate:**
     ```bach
-    go install -tags 'mysql' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+    go install -tags "postgres,mysql" github.com/golang-migrate/migrate/v4/cmd/migrate@latest
 - **Golang Httprouter:**
     ```bach
     github.com/julienschmidt/httprouter
 - **Golang Validate:**
     ```bach
     github.com/go-playground/validator/v10
-- **Database:** MySQL
+- **Database:** PostgreSQL
+    ```bach
+    github.com/lib/pq
 - **Dokumentasi API:** Swagger UI
-
+    ```bach
+    github.com/swaggo/swag/cmd/swag
+    github.com/swaggo/http-swagger
 ## Instalasi
 1. Clone repository:
    ```bash

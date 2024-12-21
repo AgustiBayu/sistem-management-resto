@@ -1,14 +1,14 @@
 openapi: '3.0.3'
 info:
-  title: Menu Items Restfull API
-  description: API Spec for Menu Item Restfull API
+  title: Pesanan Restfull API
+  description: API Spec for Category Restfull API
   version: '1.0'
 servers:
   - url: https://localhost:3000/api
 paths:
-  /menuItems:
+  /pesanans:
     post:
-      summary: Menambah data Menu Item
+      summary: Menambah data pesanan
       requestBody:
         required: true
         content:
@@ -16,23 +16,23 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                user_id:
+                  type: integer
+                total_harga:
+                  type: integer
+                status:
                   type: string
-                deskripsi:
-                  type: string
-                harga:
-                  type: string
-                tanggal_penambahan_item_menu:
+                tanggal_pembuatan_pesanan:
                   type: string
                   format: date
               required:
-                - name
-                - deskripsi
-                - harga
-                - tanggal_penambahan_item_menu
+                - user_id
+                - total_harga
+                - status
+                - tanggal_pembuatan_pesanan
       responses:
         '201':
-          description: menu items
+          description: pesanan
           content:
             application/json:
               schema:
@@ -45,10 +45,15 @@ paths:
                     properties:
                       id:
                         type: number
-                      name:
+                      user_id:
+                        type: integer
+                      total_harga:
+                        type: integer
+                      status:
                         type: string
-                      description:
+                      tanggal_pembuatan_pesanan:
                         type: string
+                        format: date
                   link:
                     type: array
                     items:
@@ -59,12 +64,12 @@ paths:
                         href:
                           type: string
     get:
-      summary: menampilkan data semua data menu items
+      summary: menampilkan data semua data pesanan
       description: menampilkan tanpa menggunkan paginate
 
       responses:
         '200':
-          description: user items reading
+          description: pesanan reading
           content:
             application/json:
               schema:

@@ -1,5 +1,5 @@
 CREATE TABLE detail_pesanans(
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     pesanan_id INT NOT NULL,
     menu_item_id INT NOT NULL,
     jumlah_item_pesanan INT NOT NULL,

@@ -1,8 +1,8 @@
 CREATE TABLE pesanans (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     user_id INT NOT NULL,
-    total_harga INT NOT NULL,
-    status ENUM ('PENDING', 'PAID', 'CANCELLED') NOT NULL,
+    total_harga INT NOT NULL,    
+    status TEXT CHECK (status IN ('PENDING', 'PAID', 'CANCELLED')),
     tanggal_pembuatan_pesanan DATE NOT NULL,
     FOREIGN KEY(user_id) REFERENCES users(id)
 );

@@ -1,8 +1,8 @@
 CREATE TABLE users (
-    id INT PRIMARY KEY AUTO_INCREMENT,
+    id SERIAL PRIMARY KEY,
     name VARCHAR(100),
     email VARCHAR(100),
     password VARCHAR(255),
-    pengguna ENUM('ADMIN', 'PENGGUNA') NOT NULL,
+    pengguna TEXT CHECK (pengguna IN ('ADMIN', 'PENGGUNA')),
     tanggal_buat_akun DATE NOT NULL
 );

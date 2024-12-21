@@ -7,7 +7,7 @@ import (
 )
 
 func NewDB() *sql.DB {
-	db, err := sql.Open("mysql", "root@tcp(localhost:3306)/sistemresto?parseTime=true")
+	db, err := sql.Open("postgres", "postgres://postgres:terserah123@localhost:5432/sistemresto?sslmode=disable")
 	helper.PanicIfError(err)
 
 	db.SetMaxIdleConns(5)
