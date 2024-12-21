@@ -25,7 +25,7 @@ func (controller *MenuItemControllerImpl) Create(writer http.ResponseWriter, req
 	helper.ReadRequestBody(request, &menuItemCreateRequest)
 
 	menuItemResponse := controller.MenuItemService.Create(request.Context(), menuItemCreateRequest)
-	links := helper.CreateLinksForMenuItem(menuItemResponse)
+	links := helper.CreateLinksForItem(menuItemResponse.Id, "menuItem")
 	webResponse := web.WebResponses{
 		Code:  200,
 		Data:  menuItemResponse,
@@ -35,7 +35,11 @@ func (controller *MenuItemControllerImpl) Create(writer http.ResponseWriter, req
 }
 func (controller *MenuItemControllerImpl) FindAll(writer http.ResponseWriter, request *http.Request, params httprouter.Params) {
 	menuItemResponse := controller.MenuItemService.FindAll(request.Context())
-	links := helper.CreateLinksForMenuItems(menuItemResponse)
+	var ids []int
+	for _, menuItem := range menuItemResponse {
+		ids = append(ids, menuItem.Id)
+	}
+	links := helper.CreateLinksForItems(ids, "menuItems")
 	webResponse := web.WebResponses{
 		Code:  200,
 		Data:  menuItemResponse,
@@ -49,7 +53,7 @@ func (controller *MenuItemControllerImpl) FindById(writer http.ResponseWriter, r
 	helper.PanicIfError(err)
 
 	menuItemResponse := controller.MenuItemService.FindById(request.Context(), id)
-	links := helper.CreateLinksForMenuItem(menuItemResponse)
+	links := helper.CreateLinksForItem(menuItemResponse.Id, "menuItems")
 	webResponse := web.WebResponses{
 		Code:  200,
 		Data:  menuItemResponse,
@@ -66,7 +70,7 @@ func (controller *MenuItemControllerImpl) Update(writer http.ResponseWriter, req
 
 	menuItemUpdateRequest.Id = id
 	menuItemResponse := controller.MenuItemService.Update(request.Context(), menuItemUpdateRequest)
-	links := helper.CreateLinksForMenuItem(menuItemResponse)
+	links := helper.CreateLinksForItem(menuItemResponse.Id, "menuItems")
 	webResponse := web.WebResponses{
 		Code:  200,
 		Data:  menuItemResponse,

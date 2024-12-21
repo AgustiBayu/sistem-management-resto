@@ -64,7 +64,7 @@ paths:
 
       responses:
         '200':
-          description: user items reading
+          description: menu items reading
           content:
             application/json:
               schema:
@@ -92,20 +92,20 @@ paths:
                           type: string
                         href:
                           type: string
-  /userItems/{id}:  
+  /menuItems/{id}:  
     get:
-      summary: menampilkan data user items berdasarkan id
+      summary: menampilkan data menu items berdasarkan id
       parameters:
         - name: id
           in: path
           required: true
-          description: user items id yang akan diambil
+          description: menu items id yang akan diambil
           schema:
             type: number
           
       responses:
         '200':
-          description: user items reading
+          description: menu items reading
           content:
             application/json:
               schema:
@@ -132,12 +132,12 @@ paths:
                         href:
                           type: string
     put:
-      summary: merubah data user items
+      summary: merubah data menu items
       parameters:
         - name: id
           required: true
           in: path
-          description: user items id yang akan diambil
+          description: menu items id yang akan diambil
           schema:
            type: number
       requestBody:
@@ -190,12 +190,12 @@ paths:
                         href:
                           type: string
     delete:
-      summary: menghapus data user items
+      summary: menghapus data menu items
       parameters:
         - name: id
           in: path
           required: true
-          description: user items id yang akan diambil
+          description: menu items id yang akan diambil
           schema:
             type: number
       responses:

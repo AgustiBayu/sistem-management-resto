@@ -23,6 +23,9 @@ func main() {
 	menuItemRepository := repository.NewMenuItemRepository()
 	menuItemService := service.NewMenuItemService(menuItemRepository, db, validate)
 	menuItemController := controller.NewMenuItemController(menuItemService)
+	pesananRepository := repository.NewPesananRepository()
+	pesananService := service.NewPesananService(pesananRepository, userRepository, db, validate)
+	pesananController := controller.NewPesananController(pesananService)
 
 	router := httprouter.New()
 	// Swagger UI handler
@@ -36,6 +39,11 @@ func main() {
 	router.GET("/api/menuItems/:menuItemId", menuItemController.FindById)
 	router.PUT("/api/menuItems/:menuItemId", menuItemController.Update)
 	router.DELETE("/api/menuItems/:menuItemId", menuItemController.Delete)
+	router.POST("/api/pesanans", pesananController.Create)
+	router.GET("/api/pesanans", pesananController.FindAll)
+	router.GET("/api/pesanans/:pesananId", pesananController.FindById)
+	router.PUT("/api/pesanans/:pesananId", pesananController.Update)
+	router.DELETE("/api/pesanans/:pesananId", pesananController.Delete)
 
 	server := http.Server{
 		Addr:    "localhost:3000",

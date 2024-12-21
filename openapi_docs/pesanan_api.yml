@@ -82,12 +82,17 @@ paths:
                     items:
                       type: object
                       properties:
-                        id:
-                          type: number
-                        name:
-                          type: string
-                        description:
-                          type: string
+                          id:
+                            type: integer
+                          user_id:
+                            type: integer
+                          total_harga:
+                            type: integer
+                          status:
+                            type: string
+                          tanggal_pembuatan_pesanan:
+                            type: string
+                            format: date
                   link:
                     type: array
                     items:
@@ -97,20 +102,20 @@ paths:
                           type: string
                         href:
                           type: string
-  /userItems/{id}:  
+  /pesanan/{id}:  
     get:
-      summary: menampilkan data user items berdasarkan id
+      summary: menampilkan data pesanan berdasarkan id
       parameters:
         - name: id
           in: path
           required: true
-          description: user items id yang akan diambil
+          description: pesanan id yang akan diambil
           schema:
             type: number
           
       responses:
         '200':
-          description: user items reading
+          description: pesanan reading
           content:
             application/json:
               schema:
@@ -122,11 +127,16 @@ paths:
                     type: object
                     properties:
                       id:
-                        type: number
-                      name:
+                        type: integer
+                      user_id:
+                        type: integer
+                      total_harga:
+                        type: integer
+                      status:
                         type: string
-                      description:
+                      tanggal_pembuatan_pesanan:
                         type: string
+                        format: date
                   link:
                     type: array
                     items:
@@ -137,12 +147,12 @@ paths:
                         href:
                           type: string
     put:
-      summary: merubah data user items
+      summary: merubah data pesanan
       parameters:
         - name: id
           required: true
           in: path
-          description: user items id yang akan diambil
+          description: pesanan id yang akan diambil
           schema:
            type: number
       requestBody:
@@ -152,13 +162,15 @@ paths:
             schema:
               type: object
               properties:
-                name:
+                id:
+                 type: integer
+                user_id:
+                  type: integer
+                total_harga:
+                  type: integer
+                status:
                   type: string
-                deskripsi:
-                  type: string
-                harga:
-                  type: string
-                tanggal_penambahan_item_menu:
+                tanggal_pembuatan_pesanan:
                   type: string
                   format: date
       responses:
@@ -173,16 +185,16 @@ paths:
                     type: number                  
                   data:
                     type: object                    
-                    properties:
+                    properties:         
                       id:
+                        type: integer             
+                      user_id:
                         type: integer
-                      name:
+                      total_harga:
+                        type: integer
+                      status:
                         type: string
-                      deskripsi:
-                        type: string
-                      harga:
-                        type: string
-                      tanggal_penambahan_item_menu:
+                      tanggal_pembuatan_pesanan:
                         type: string
                         format: date
                   link:
@@ -195,12 +207,12 @@ paths:
                         href:
                           type: string
     delete:
-      summary: menghapus data user items
+      summary: menghapus data pesanan
       parameters:
         - name: id
           in: path
           required: true
-          description: user items id yang akan diambil
+          description: pesanan id yang akan diambil
           schema:
             type: number
       responses:

@@ -5,6 +5,34 @@ import (
 	"SistemManagementResto/model/web"
 )
 
+func ToPesananResponses(pesanans []domain.Pesanan, userMap map[int]domain.User) []web.PesananResponse {
+	var pesananResponse []web.PesananResponse
+	for _, pesanan := range pesanans {
+		user, exits := userMap[pesanan.UserId]
+		if !exits {
+			user = domain.User{}
+		}
+		pesananResponse = append(pesananResponse, ToPesananResponse(pesanan, user))
+	}
+	return pesananResponse
+}
+
+func ToPesananResponse(pesanan domain.Pesanan, user domain.User) web.PesananResponse {
+	return web.PesananResponse{
+		Id: pesanan.Id,
+		User: web.UserResponse{
+			Id:              user.Id,
+			Name:            user.Name,
+			Email:           user.Email,
+			Pengguna:        string(user.Pengguna),
+			TanggalBuatAkun: FormatTanggal(user.TanggalBuatAkun),
+		},
+		TotalHarga:              pesanan.TotalHarga,
+		Status:                  string(pesanan.Status),
+		TanggalPembuatanPesanan: FormatTanggal(pesanan.TanggalPembuatanPesanan),
+	}
+}
+
 func ToMenuItemResponses(menuItems []domain.MenuItem) []web.MenuItemResponse {
 	var menuItemsResponse []web.MenuItemResponse
 	for _, menuItem := range menuItems {
