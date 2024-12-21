@@ -10,6 +10,7 @@ Sistem Manajemen Resto adalah backend API yang dirancang untuk mengelola data re
 - **Manajemen Detail Pesanan:** Terdapat proses implementasi CRUD pada detail pesanan dengan otorisasi dari basic auth.
 - **Manajemen Transaksi:** Terdapat proses implementasi CRUD pada transaksi dengan otorisasi dari basic auth.
 - **Dokumentasi API:** Swagger UI untuk eksplorasi API.
+- **Continuous Integration:** GitHub Actions digunakan untuk otomatisasi proses build dan pengecekan kode. Setiap kali kode di-push ke branch `master`, workflow akan berjalan untuk memastikan bahwa aplikasi dibangun tanpa error.
 
 ## Teknologi
 - **Bahasa:** Golang
