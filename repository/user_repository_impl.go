@@ -15,12 +15,11 @@ func NewUserRepository() UserRepository {
 }
 
 func (u *UserRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
-	SQL := "INSERT INTO users(name, email,password,pengguna,tanggal_buat_akun) VALUES(?,?,?,?,?)"
-	result, err := tx.ExecContext(ctx, SQL, user.Name, user.Email, user.Password, user.Pengguna, user.TanggalBuatAkun)
+	SQL := "INSERT INTO users(name, email,password,pengguna,tanggal_buat_akun) VALUES($1,$2,$3,$4,$5) RETURNING id"
+	var id int
+	err := tx.QueryRowContext(ctx, SQL, user.Name, user.Email, user.Password, user.Pengguna, user.TanggalBuatAkun).Scan(&id)
 	helper.PanicIfError(err)
-	id, err := result.LastInsertId()
-	helper.PanicIfError(err)
-	user.Id = int(id)
+	user.Id = id
 	return user
 }
 func (u *UserRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.User {
@@ -38,7 +37,7 @@ func (u *UserRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.U
 	return users
 }
 func (u *UserRepositoryImpl) FindByEmail(ctx context.Context, tx *sql.Tx, email string) (domain.User, error) {
-	SQL := "SELECT id,name, email,password,pengguna,tanggal_buat_akun FROM users WHERE email = ?"
+	SQL := "SELECT id,name, email,password,pengguna,tanggal_buat_akun FROM users WHERE email = $1"
 	rows, err := tx.QueryContext(ctx, SQL, email)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -52,7 +51,7 @@ func (u *UserRepositoryImpl) FindByEmail(ctx context.Context, tx *sql.Tx, email 
 	}
 }
 func (u *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, userId int) (domain.User, error) {
-	SQL := "SELECT id,name, email,password,pengguna,tanggal_buat_akun FROM users WHERE id = ?"
+	SQL := "SELECT id,name, email,password,pengguna,tanggal_buat_akun FROM users WHERE id = $1"
 	rows, err := tx.QueryContext(ctx, SQL, userId)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -66,13 +65,13 @@ func (u *UserRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, userId in
 	}
 }
 func (u *UserRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, user domain.User) domain.User {
-	SQL := "UPDATE users SET name = ?, email = ?,password = ?,pengguna = ?,tanggal_buat_akun = ? WHERE id = ?"
+	SQL := "UPDATE users SET name = $1, email = $2,password = $3,pengguna = $4,tanggal_buat_akun = $5 WHERE id = $6"
 	_, err := tx.ExecContext(ctx, SQL, user.Name, user.Email, user.Password, user.Pengguna, user.TanggalBuatAkun, user.Id)
 	helper.PanicIfError(err)
 	return user
 }
 func (u *UserRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, user domain.User) {
-	SQL := "DELETE FROM users WHERE id = ?"
+	SQL := "DELETE FROM users WHERE id = $1"
 	_, err := tx.ExecContext(ctx, SQL, user.Id)
 	helper.PanicIfError(err)
 }

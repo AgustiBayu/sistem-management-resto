@@ -15,12 +15,11 @@ func NewMenuItemRepository() MenuItemRepository {
 }
 
 func (m *MenuItemRepositoryImpl) Save(ctx context.Context, tx *sql.Tx, menuItem domain.MenuItem) domain.MenuItem {
-	SQL := "INSERT INTO menu_items(name, deskripsi, harga ,tanggal_penambahan_item_menu) VALUES(?,?,?,?)"
-	result, err := tx.ExecContext(ctx, SQL, menuItem.Name, menuItem.Deskripsi, menuItem.Harga, menuItem.TanggalPenambahanItemMenu)
+	SQL := "INSERT INTO menu_items(name, deskripsi, harga ,tanggal_penambahan_item_menu) VALUES($1,$2,$3,$4) RETURNING id"
+	var id int
+	err := tx.QueryRowContext(ctx, SQL, menuItem.Name, menuItem.Deskripsi, menuItem.Harga, menuItem.TanggalPenambahanItemMenu).Scan(&id)
 	helper.PanicIfError(err)
-	id, err := result.LastInsertId()
-	helper.PanicIfError(err)
-	menuItem.Id = int(id)
+	menuItem.Id = id
 	return menuItem
 }
 func (m *MenuItemRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []domain.MenuItem {
@@ -38,7 +37,7 @@ func (m *MenuItemRepositoryImpl) FindAll(ctx context.Context, tx *sql.Tx) []doma
 	return menuItems
 }
 func (m *MenuItemRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, menuItemId int) (domain.MenuItem, error) {
-	SQL := "SELECT id, name, deskripsi,harga,tanggal_penambahan_item_menu FROM menu_items WHERE id = ?"
+	SQL := "SELECT id, name, deskripsi,harga,tanggal_penambahan_item_menu FROM menu_items WHERE id = $1"
 	rows, err := tx.QueryContext(ctx, SQL, menuItemId)
 	helper.PanicIfError(err)
 	defer rows.Close()
@@ -52,13 +51,13 @@ func (m *MenuItemRepositoryImpl) FindById(ctx context.Context, tx *sql.Tx, menuI
 	}
 }
 func (m *MenuItemRepositoryImpl) Update(ctx context.Context, tx *sql.Tx, menuItem domain.MenuItem) domain.MenuItem {
-	SQL := "UPDATE menu_items SET name = ?, deskripsi = ?,harga = ?,tanggal_penambahan_item_menu = ? WHERE id = ?"
+	SQL := "UPDATE menu_items SET name = $1, deskripsi = $2,harga = $3,tanggal_penambahan_item_menu = $4 WHERE id = $5"
 	_, err := tx.QueryContext(ctx, SQL, menuItem.Name, menuItem.Deskripsi, menuItem.Harga, menuItem.TanggalPenambahanItemMenu, menuItem.Id)
 	helper.PanicIfError(err)
 	return menuItem
 }
 func (m *MenuItemRepositoryImpl) Delete(ctx context.Context, tx *sql.Tx, menuItem domain.MenuItem) {
-	SQL := "DELETE FROM menu_items WHERE id = ?"
+	SQL := "DELETE FROM menu_items WHERE id = $1"
 	_, err := tx.ExecContext(ctx, SQL, menuItem.Id)
 	helper.PanicIfError(err)
 }
