@@ -1,6 +1,6 @@
 module SistemManagementResto
 
-go 1.23.2
+go 1.23
 
 require (
 	github.com/go-playground/validator/v10 v10.23.0
