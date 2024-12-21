@@ -19,7 +19,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v4  # Setup Go environment
         with:
-          go-version: '1.20'  # Versi Go yang digunakan
+          go-version: '1.23'  # Versi Go yang digunakan
 
       - name: Install dependencies
         run: go mod tidy  # Menginstal dependensi
