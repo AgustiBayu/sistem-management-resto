@@ -5,6 +5,45 @@ import (
 	"SistemManagementResto/model/web"
 )
 
+func ToTransaksiResponses(transaksis []domain.Transaksi, pesananMap map[int]domain.Pesanan, userMap map[int]domain.User) []web.TransaksiResponse {
+	var transaksiResponse []web.TransaksiResponse
+	for _, transaksi := range transaksis {
+		pesanan, exits := pesananMap[transaksi.PesananId]
+		if !exits {
+			pesanan = domain.Pesanan{}
+		}
+		user, exits := userMap[pesanan.UserId]
+		if !exits {
+			user = domain.User{}
+		}
+		transaksiResponse = append(transaksiResponse, ToTransaksiResponse(transaksi, pesanan, user))
+	}
+	return transaksiResponse
+}
+
+func ToTransaksiResponse(transaksi domain.Transaksi, pesanan domain.Pesanan, user domain.User) web.TransaksiResponse {
+	return web.TransaksiResponse{
+		Id: transaksi.Id,
+		Pesanan: web.PesananResponse{
+			Id: pesanan.Id,
+			User: web.UserResponse{
+				Id:              user.Id,
+				Name:            user.Name,
+				Email:           user.Email,
+				Pengguna:        string(user.Pengguna),
+				TanggalBuatAkun: FormatTanggal(user.TanggalBuatAkun),
+			},
+			TotalHarga:              pesanan.TotalHarga,
+			Status:                  string(pesanan.Status),
+			TanggalPembuatanPesanan: FormatTanggal(pesanan.TanggalPembuatanPesanan),
+		},
+		MetodePembayaran: string(transaksi.MetodePembayaran),
+		JumlahBayar:      transaksi.JumlahBayar,
+		Kembalian:        transaksi.Kembalian,
+		TanggalTransaksi: FormatTanggal(transaksi.TanggalTransaksi),
+	}
+}
+
 func ToDetailPesananResponses(detailPesanans []domain.DetailPesanan, pesananMap map[int]domain.Pesanan, userMap map[int]domain.User, menuIteMap map[int]domain.MenuItem) []web.DetailPesananResponse {
 	var detailPesananResponse []web.DetailPesananResponse
 	for _, detailPesanan := range detailPesanans {

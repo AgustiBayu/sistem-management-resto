@@ -29,6 +29,9 @@ func main() {
 	detailPesananRepository := repository.NewDetailPesananRepository()
 	detailPesananService := service.NewDetailPesananService(detailPesananRepository, pesananRepository, userRepository, menuItemRepository, db, validate)
 	detailPesananController := controller.NewDetailPesananController(detailPesananService)
+	transaksiRepository := repository.NewTransaksiRepository()
+	transaksiService := service.NewTransaksiService(transaksiRepository, pesananRepository, userRepository, db, validate)
+	transaksiController := controller.NewTransaksiController(transaksiService)
 
 	router := httprouter.New()
 	// Swagger UI handler
@@ -52,6 +55,11 @@ func main() {
 	router.GET("/api/detailPesanans/:detailPesananId", detailPesananController.FindById)
 	router.PUT("/api/detailPesanans/:detailPesananId", detailPesananController.Update)
 	router.DELETE("/api/detailPesanans/:detailPesananId", detailPesananController.Delete)
+	router.POST("/api/transaksis", transaksiController.Create)
+	router.GET("/api/transaksis", transaksiController.FindAll)
+	router.GET("/api/transaksis/:transaksiId", transaksiController.FindById)
+	router.PUT("/api/transaksis/:transaksiId", transaksiController.Update)
+	router.DELETE("/api/transaksis/:transaksiId", transaksiController.Delete)
 
 	server := http.Server{
 		Addr:    "localhost:3000",

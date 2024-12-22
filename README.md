@@ -38,7 +38,10 @@ Sistem Manajemen Resto adalah backend API yang dirancang untuk mengelola data re
 2. cd sistem-manajemen-restoran
 3. go mod tidy
 4. Atur konfigurasi database di file app.
-5. Jalankan aplikasi:
+5. Jalankan Perintah
+   ```bash
+   migrate -database "postgres://postgres:password!!@localhost:5432/db_name?sslmode=disable" -path migrations up
+6. Jalankan aplikasi:
     ```bash
     go run main.go
 
