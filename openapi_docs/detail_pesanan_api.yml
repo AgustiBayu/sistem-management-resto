@@ -71,12 +71,21 @@ paths:
                       menu_tems:
                         type: object
                         properties:
-                          
-
-                      name:
-                        type: string
-                      description:
-                        type: string
+                          id:
+                            type: number
+                          name:
+                            type: string
+                          deskripsi:
+                            type: string
+                          harga:
+                            type: number
+                          tanggal_penambahan_item_menu:
+                            type: string
+                            format: date
+                      jumlah_item_pesanan:
+                        type: number
+                      harga_item:
+                        type: number
                   link:
                     type: array
                     items:
@@ -107,10 +116,48 @@ paths:
                       properties:
                         id:
                           type: number
-                        name:
-                          type: string
-                        description:
-                          type: string
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            user:
+                              type: object
+                              properties:                              
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                pengguna:
+                                  type: string
+                                tanggal_buat_akun:
+                                  type: string
+                                  format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        menu_tems:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            name:
+                              type: string
+                            deskripsi:
+                              type: string
+                            harga:
+                              type: number
+                            tanggal_penambahan_item_menu:
+                              type: string
+                              format: date
+                        jumlah_item_pesanan:
+                          type: number
+                        harga_item:
+                          type: number
                   link:
                     type: array
                     items:
@@ -120,20 +167,20 @@ paths:
                           type: string
                         href:
                           type: string
-  /menuItems/{id}:  
+  /detailPesanans/{id}:  
     get:
-      summary: menampilkan data menu items berdasarkan id
+      summary: menampilkan data detail pesanan berdasarkan id
       parameters:
         - name: id
           in: path
           required: true
-          description: menu items id yang akan diambil
+          description: detail pesanan id yang akan diambil
           schema:
             type: number
           
       responses:
         '200':
-          description: menu items reading
+          description: detail pesanan reading
           content:
             application/json:
               schema:
@@ -144,12 +191,50 @@ paths:
                   data: 
                     type: object
                     properties:
-                      id:
-                        type: number
-                      name:
-                        type: string
-                      description:
-                        type: string
+                        id:
+                          type: number
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            user:
+                              type: object
+                              properties:                              
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                pengguna:
+                                  type: string
+                                tanggal_buat_akun:
+                                  type: string
+                                  format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        menu_tems:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            name:
+                              type: string
+                            deskripsi:
+                              type: string
+                            harga:
+                              type: number
+                            tanggal_penambahan_item_menu:
+                              type: string
+                              format: date
+                        jumlah_item_pesanan:
+                          type: number
+                        harga_item:
+                          type: number
                   link:
                     type: array
                     items:
@@ -160,12 +245,12 @@ paths:
                         href:
                           type: string
     put:
-      summary: merubah data menu items
+      summary: merubah data detail pesanan
       parameters:
         - name: id
           required: true
           in: path
-          description: menu items id yang akan diambil
+          description: detail pesanan id yang akan diambil
           schema:
            type: number
       requestBody:
@@ -175,18 +260,17 @@ paths:
             schema:
               type: object
               properties:
-                name:
-                  type: string
-                deskripsi:
-                  type: string
-                harga:
-                  type: string
-                tanggal_penambahan_item_menu:
-                  type: string
-                  format: date
+                pesanan_id:
+                  type: integer
+                menu_item_id:
+                  type: integer
+                jumlah_item_pesanan:
+                  type: integer
+                harga_item_pesanan:
+                  type: integer
       responses:
         '201':
-          description: data category berhasil dirubah
+          description: data detail pesanan berhasil dirubah
           content:
             application/json:
               schema:
@@ -197,17 +281,50 @@ paths:
                   data:
                     type: object                    
                     properties:
-                      id:
-                        type: integer
-                      name:
-                        type: string
-                      deskripsi:
-                        type: string
-                      harga:
-                        type: string
-                      tanggal_penambahan_item_menu:
-                        type: string
-                        format: date
+                        id:
+                          type: number
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            user:
+                              type: object
+                              properties:                              
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                pengguna:
+                                  type: string
+                                tanggal_buat_akun:
+                                  type: string
+                                  format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        menu_tems:
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            name:
+                              type: string
+                            deskripsi:
+                              type: string
+                            harga:
+                              type: number
+                            tanggal_penambahan_item_menu:
+                              type: string
+                              format: date
+                        jumlah_item_pesanan:
+                          type: number
+                        harga_item:
+                          type: number
                   link:
                     type: array
                     items:
@@ -218,12 +335,12 @@ paths:
                         href:
                           type: string
     delete:
-      summary: menghapus data menu items
+      summary: menghapus data detail pesanan
       parameters:
         - name: id
           in: path
           required: true
-          description: menu items id yang akan diambil
+          description: detail pesanan id yang akan diambil
           schema:
             type: number
       responses:

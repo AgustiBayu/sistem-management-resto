@@ -158,7 +158,7 @@ paths:
                   format: date
       responses:
         '201':
-          description: data category berhasil dirubah
+          description: data menu items berhasil dirubah
           content:
             application/json:
               schema:
