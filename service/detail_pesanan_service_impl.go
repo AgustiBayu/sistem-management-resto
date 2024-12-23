@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SistemManagementResto/exception"
 	"SistemManagementResto/helper"
 	"SistemManagementResto/model/domain"
 	"SistemManagementResto/model/web"
@@ -49,11 +50,17 @@ func (service *DetailPesananServiceImpl) Create(ctx context.Context, request web
 	}
 	detailPesanan = service.DetailPesananRepository.Save(ctx, tx, detailPesanan)
 	pesanan, _, err := service.PesananRepository.FindById(ctx, tx, detailPesanan.PesananId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	menuItem, err := service.MenuItemRepository.FindById(ctx, tx, detailPesanan.MenuItemId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToDetailPesananResponse(detailPesanan, pesanan, user, menuItem)
 }
 func (service *DetailPesananServiceImpl) FindAll(ctx context.Context) []web.DetailPesananResponse {
@@ -69,7 +76,9 @@ func (service *DetailPesananServiceImpl) FindById(ctx context.Context, requestId
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 	detailPesanan, pesanan, user, menuItem, err := service.DetailPesananRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToDetailPesananResponse(detailPesanan, pesanan, user, menuItem)
 }
 func (service *DetailPesananServiceImpl) Update(ctx context.Context, request web.DetailPesananUpdateRequest) web.DetailPesananResponse {
@@ -80,13 +89,21 @@ func (service *DetailPesananServiceImpl) Update(ctx context.Context, request web
 	helper.PanicIfError(err)
 	defer helper.RollbackOrCommit(tx)
 	detailPesanan, _, _, _, err := service.DetailPesananRepository.FindById(ctx, tx, request.Id)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	pesanan, _, err := service.PesananRepository.FindById(ctx, tx, detailPesanan.PesananId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	menuItem, err := service.MenuItemRepository.FindById(ctx, tx, detailPesanan.MenuItemId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	detailPesanan.PesananId = request.PesananId
 	detailPesanan.MenuItemId = request.MenuItemId
@@ -101,6 +118,8 @@ func (service *DetailPesananServiceImpl) Delete(ctx context.Context, requestId i
 	defer helper.RollbackOrCommit(tx)
 
 	detailPesanan, _, _, _, err := service.DetailPesananRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	service.DetailPesananRepository.Delete(ctx, tx, detailPesanan)
 }

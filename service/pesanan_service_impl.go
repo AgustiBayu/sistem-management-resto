@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SistemManagementResto/exception"
 	"SistemManagementResto/helper"
 	"SistemManagementResto/model/domain"
 	"SistemManagementResto/model/web"
@@ -46,7 +47,9 @@ func (service *PesananServiceImpl) Create(ctx context.Context, request web.Pesan
 	}
 	pesanan = service.PesananRespository.Save(ctx, tx, pesanan)
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToPesananResponse(pesanan, user)
 }
 func (service *PesananServiceImpl) FindAll(ctx context.Context) []web.PesananResponse {
@@ -64,7 +67,9 @@ func (service *PesananServiceImpl) FindById(ctx context.Context, requestId int) 
 	defer helper.RollbackOrCommit(tx)
 
 	pesanan, user, err := service.PesananRespository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToPesananResponse(pesanan, user)
 }
 func (service *PesananServiceImpl) Update(ctx context.Context, request web.PesananUpdateRequest) web.PesananResponse {
@@ -75,9 +80,13 @@ func (service *PesananServiceImpl) Update(ctx context.Context, request web.Pesan
 	TanggalPembuatanPesanan, err := time.Parse("02-01-2006", request.TanggalPembuatanPesanan)
 	helper.PanicIfError(err)
 	pesanan, _, err := service.PesananRespository.FindById(ctx, tx, request.Id)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	err = helper.ValidateTanggalBaru(pesanan.TanggalPembuatanPesanan, TanggalPembuatanPesanan)
 	helper.PanicIfError(err)
@@ -95,6 +104,8 @@ func (service *PesananServiceImpl) Delete(ctx context.Context, requestId int) {
 	defer helper.RollbackOrCommit(tx)
 
 	pesanan, _, err := service.PesananRespository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	service.PesananRespository.Delete(ctx, tx, pesanan)
 }

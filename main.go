@@ -3,6 +3,7 @@ package main
 import (
 	"SistemManagementResto/app"
 	"SistemManagementResto/controller"
+	"SistemManagementResto/exception"
 	"SistemManagementResto/helper"
 	"SistemManagementResto/repository"
 	"SistemManagementResto/service"
@@ -61,6 +62,7 @@ func main() {
 	router.PUT("/api/transaksis/:transaksiId", transaksiController.Update)
 	router.DELETE("/api/transaksis/:transaksiId", transaksiController.Delete)
 
+	router.PanicHandler = exception.ErrorHandler
 	server := http.Server{
 		Addr:    "localhost:3000",
 		Handler: router,

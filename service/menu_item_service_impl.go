@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SistemManagementResto/exception"
 	"SistemManagementResto/helper"
 	"SistemManagementResto/model/domain"
 	"SistemManagementResto/model/web"
@@ -57,7 +58,9 @@ func (service *MenuItemServiceImpl) FindById(ctx context.Context, requestId int)
 	defer helper.RollbackOrCommit(tx)
 
 	menuItem, err := service.MenuItemRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToMenuItemResponse(menuItem)
 }
 func (service *MenuItemServiceImpl) Update(ctx context.Context, request web.MenuItemUpdateRequest) web.MenuItemResponse {
@@ -66,7 +69,9 @@ func (service *MenuItemServiceImpl) Update(ctx context.Context, request web.Menu
 	defer helper.RollbackOrCommit(tx)
 
 	menuItem, err := service.MenuItemRepository.FindById(ctx, tx, request.Id)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	TanggalPenambahanItemMenu, err := time.Parse("02-01-2006", request.TanggalPenambahanItemMenu)
 	helper.PanicIfError(err)
 	err = helper.ValidateTanggalBaru(menuItem.TanggalPenambahanItemMenu, TanggalPenambahanItemMenu)
@@ -85,6 +90,8 @@ func (service *MenuItemServiceImpl) Delete(ctx context.Context, requestId int) {
 	defer helper.RollbackOrCommit(tx)
 
 	menuItem, err := service.MenuItemRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	service.MenuItemRepository.Delete(ctx, tx, menuItem)
 }

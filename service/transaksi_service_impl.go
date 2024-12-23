@@ -1,6 +1,7 @@
 package service
 
 import (
+	"SistemManagementResto/exception"
 	"SistemManagementResto/helper"
 	"SistemManagementResto/model/domain"
 	"SistemManagementResto/model/web"
@@ -40,7 +41,9 @@ func (service *TransaksiServiceImpl) Create(ctx context.Context, request web.Tra
 	defer helper.RollbackOrCommit(tx)
 
 	pesanan, _, err := service.PesananRepository.FindById(ctx, tx, request.PesananId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	if request.JumlahBayar < pesanan.TotalHarga {
 		panic("jumlah bayar kurang dari total")
 	}
@@ -57,7 +60,9 @@ func (service *TransaksiServiceImpl) Create(ctx context.Context, request web.Tra
 	}
 	transaksi = service.TransaksiRepository.Save(ctx, tx, transaksi)
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToTransaksiResponse(transaksi, pesanan, user)
 }
 func (service *TransaksiServiceImpl) FindAll(ctx context.Context) []web.TransaksiResponse {
@@ -74,7 +79,9 @@ func (service *TransaksiServiceImpl) FindById(ctx context.Context, requestId int
 	defer helper.RollbackOrCommit(tx)
 
 	transaksi, pesanan, user, err := service.TransaksiRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	return helper.ToTransaksiResponse(transaksi, pesanan, user)
 }
 func (service *TransaksiServiceImpl) Update(ctx context.Context, request web.TransaksiUpdateRequest) web.TransaksiResponse {
@@ -88,16 +95,22 @@ func (service *TransaksiServiceImpl) Update(ctx context.Context, request web.Tra
 	TanggalTransaksi, err := time.Parse("02-01-2006", request.TanggalTransaksi)
 	helper.PanicIfError(err)
 	pesanan, _, err := service.PesananRepository.FindById(ctx, tx, request.PesananId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	if request.JumlahBayar < pesanan.TotalHarga {
 		panic("jumlah bayar kurang dari total")
 	}
 	Kembalian := request.JumlahBayar - pesanan.TotalHarga
 
 	transaksi, _, _, err := service.TransaksiRepository.FindById(ctx, tx, request.Id)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	user, err := service.UserRepository.FindById(ctx, tx, pesanan.UserId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 
 	err = helper.ValidateTanggalBaru(transaksi.TanggalTransaksi, TanggalTransaksi)
 	helper.PanicIfError(err)
@@ -116,6 +129,8 @@ func (service *TransaksiServiceImpl) Delete(ctx context.Context, requestId int) 
 	defer helper.RollbackOrCommit(tx)
 
 	transaksi, _, _, err := service.TransaksiRepository.FindById(ctx, tx, requestId)
-	helper.PanicIfError(err)
+	if err != nil {
+		panic(exception.NewNotFoundError(err.Error()))
+	}
 	service.TransaksiRepository.Delete(ctx, tx, transaksi)
 }
