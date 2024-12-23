@@ -4,6 +4,7 @@ import (
 	"SistemManagementResto/helper"
 	"SistemManagementResto/model/web"
 	"SistemManagementResto/service"
+	"encoding/base64"
 	"net/http"
 
 	"github.com/julienschmidt/httprouter"
@@ -36,6 +37,8 @@ func (controller *UserControllerImpl) Login(writer http.ResponseWriter, request 
 	userResponse, err := controller.UserService.Login(request.Context(), userLoginRequest)
 	helper.PanicIfError(err)
 
+	token := base64.StdEncoding.EncodeToString([]byte(userLoginRequest.Email + ":" + userLoginRequest.Password))
+	writer.Header().Set("Authorization", "Basic "+token)
 	webResponse := web.WebResponse{
 		Code: 200,
 		Data: userResponse,
