@@ -1,0 +1,331 @@
+openapi: '3.0.3'
+info:
+  title: Transkasi Restfull API
+  description: API Spec for Menu Item Restfull API
+  version: '1.0'
+servers:
+  - url: https://localhost:3000/api
+paths:
+  /transaksis:
+    post:
+      summary: Menambah data Transkasi
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pesanan_id:
+                  type: integer
+                metode_pembayaran:
+                  type: string
+                jumlah_bayar:
+                  type: integer
+                tanggal_transaksi:
+                  type: string
+                  format: date                  
+              required:
+                - pesanan_id
+                - metode_pembayaran
+                - jumlah_bayar
+                - tanggal_transaksi
+      responses:
+        '201':
+          description: transaksi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code: 
+                    type: number
+                  data:
+                    type: object                                          
+                    properties:
+                      id:
+                        type: number
+                      pesanan:                                                
+                        type: object
+                        properties:
+                          id:
+                            type: number
+                          user:
+                            type: object
+                            properties:                              
+                              name:
+                                type: string
+                              email:
+                                type: string
+                              pengguna:
+                                type: string
+                              tanggal_buat_akun:
+                                type: string
+                                format: date
+                          total_harga:
+                            type: number
+                          status: 
+                            type: string
+                          tanggal_pembuatan_pesanan:
+                            type: string
+                            format: date
+                      metode_pembayaran:
+                        type: string
+                      jumlah_bayar:
+                        type: number
+                      kembalian:
+                        type: number
+                      tanggal_transaksi:
+                        type: string
+                        format: date
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    get:
+      summary: menampilkan data semua data transaksi
+      description: menampilkan tanpa menggunkan paginate
+
+      responses:
+        '200':
+          description: transaksi reading
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                  
+                  data: 
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: number
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            user:
+                              type: object
+                              properties:                              
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                pengguna:
+                                  type: string
+                                tanggal_buat_akun:
+                                  type: string
+                                  format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        metode_pembayaran:
+                          type: string
+                        jumlah_bayar:
+                          type: number
+                        kembalian:
+                          type: number
+                        tanggal_transaksi:
+                          type: string
+                          format: date
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+  /transaksis/{id}:  
+    get:
+      summary: menampilkan data Transkasi berdasarkan id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Transkasi id yang akan diambil
+          schema:
+            type: number
+          
+      responses:
+        '200':
+          description: Transkasi reading
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                 
+                  data: 
+                    type: object
+                    properties:
+                        id:
+                          type: number
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            user:
+                              type: object
+                              properties:                              
+                                name:
+                                  type: string
+                                email:
+                                  type: string
+                                pengguna:
+                                  type: string
+                                tanggal_buat_akun:
+                                  type: string
+                                  format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        metode_pembayaran:
+                          type: string
+                        jumlah_bayar:
+                          type: number
+                        kembalian:
+                          type: number
+                        tanggal_transaksi:
+                          type: string
+                          format: date
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    put:
+      summary: merubah data Transkasi
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: Transkasi id yang akan diambil
+          schema:
+           type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pesanan_id:
+                  type: integer
+                metode_pembayaran:
+                  type: string
+                jumlah_bayar:
+                  type: integer
+                tanggal_transaksi:
+                  type: string
+                  format: date                  
+              required:
+                - pesanan_id
+                - metode_pembayaran
+                - jumlah_bayar
+                - tanggal_transaksi
+      responses:
+        '201':
+          description: data Transkasi berhasil dirubah
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                  
+                  data:
+                    type: object                    
+                    properties:
+                        id:
+                          type: number
+                        pesanan:                                                
+                          type: object
+                          properties:
+                            id:
+                              type: number
+                            pesanan:                                                
+                              type: object
+                              properties:
+                                id:
+                                  type: number
+                                user:
+                                  type: object
+                                  properties:                              
+                                    name:
+                                      type: string
+                                    email:
+                                      type: string
+                                    pengguna:
+                                      type: string
+                                    tanggal_buat_akun:
+                                      type: string
+                                      format: date
+                            total_harga:
+                              type: number
+                            status: 
+                              type: string
+                            tanggal_pembuatan_pesanan:
+                              type: string
+                              format: date
+                        metode_pembayaran:
+                          type: string
+                        jumlah_bayar:
+                          type: number
+                        kembalian:
+                          type: number
+                        tanggal_transaksi:
+                          type: string
+                          format: date
+                  link:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        rel:
+                          type: string
+                        href:
+                          type: string
+    delete:
+      summary: menghapus data Transkasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: Transkasi id yang akan diambil
+          schema:
+            type: number
+      responses:
+        '200':
+          description: "data berhasil dihapus"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  code:
+                    type: number                 
